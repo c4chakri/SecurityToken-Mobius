@@ -12,6 +12,8 @@ contract ModularCompliance is IModularCompliance, OwnableUpgradeable, MCStorage 
 
     /// modifiers
     address private council;
+
+    string public name = "ModularCompliance";
     /**
      * @dev Throws if called by any address that is not a token bound to the compliance.
      */

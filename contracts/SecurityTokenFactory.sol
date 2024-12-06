@@ -18,6 +18,7 @@ contract SecurityTokenFactory is ISecurityTokenFactory {
     uint256 public tokenCount;
 
     mapping(uint256 => securityTokenInfo) public securityTokenList;
+    mapping (address => securityTokenInfo) public securityTokenConfiguration;
 
     constructor(address _complainceFactory, address _moduleFactory) {
         complainceFactory = _complainceFactory;
@@ -126,6 +127,8 @@ contract SecurityTokenFactory is ISecurityTokenFactory {
     compliance.callModuleFunction(setTransferLimit, timeTransferLimit);
 }
         securityTokenList[tokenCount] = newTokenInfo;
+        securityTokenConfiguration[address(token)] = newTokenInfo;
+
         tokenCount++;
 
         emit CreatedNewSecurityToken(
