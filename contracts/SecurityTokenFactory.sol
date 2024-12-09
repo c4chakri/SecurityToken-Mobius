@@ -46,9 +46,11 @@ contract SecurityTokenFactory is ISecurityTokenFactory {
 
         compliance.init(msg.sender);
         SecurityToken token = new SecurityToken();
-        token.init(
+          token.init(
             address(identityStorage),
             address(compliance),
+            address(this),
+            msg.sender,
             params._name,
             params._symbol,
             params._decimals,

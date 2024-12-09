@@ -14,11 +14,11 @@ contract MaxBalanceModule is AbstractModuleUpgradeable {
     mapping(address => bool) private _compliancePresetStatus;
 
     /// maximum balance per investor ONCHAINID per modular compliance
-    mapping(address => uint256) private _maxBalance;
+    mapping(address => uint256) public _maxBalance;
 
     /// mapping of balances per ONCHAINID per modular compliance
     // solhint-disable-next-line var-name-mixedcase
-    mapping(address => mapping(address => uint256)) private _IDBalance;
+    mapping(address => mapping(address => uint256)) public _IDBalance;
 
     /// events
 

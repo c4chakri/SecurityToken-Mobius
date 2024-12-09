@@ -13,6 +13,7 @@ contract SecurityToken is TokenStorage, AgentRoleUpgradeable, ISecurityToken {
     IIdentityStorage public identityStorage;
 
     uint256 public maxTotalSupply;
+    address private council;
 
     /// @dev Modifier to make a function callable only when the contract is not paused.
     modifier whenNotPaused() {
@@ -26,15 +27,17 @@ contract SecurityToken is TokenStorage, AgentRoleUpgradeable, ISecurityToken {
         _;
     }
 
-    modifier onlyOwnerOrAgent() {
-        require(owner() == msg.sender || isAgent(msg.sender), "Caller is not owner or agent");
+   modifier onlyOwnerOrAgent() {
+        require(owner() == msg.sender || isAgent(msg.sender) || msg.sender == council, "Caller is not owner or agent");
         _;
     }
 
     // Constructor
-    function init(
+   function init(
             address _identityStorage,
             address _compliance,
+            address _owner,
+            address _council,
             string memory _name,
             string memory _symbol,
             uint8 _decimals,
@@ -52,7 +55,8 @@ contract SecurityToken is TokenStorage, AgentRoleUpgradeable, ISecurityToken {
             );
             require(0 <= _decimals && _decimals <= 18, "decimals between 0 and 18");
 
-            __Ownable_init(msg.sender);
+            __Ownable_init(_owner);
+            council = _council;
             _tokenName = _name;
             _tokenSymbol = _symbol;
             _tokenDecimals = _decimals;
