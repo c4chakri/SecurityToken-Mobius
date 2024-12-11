@@ -68,22 +68,22 @@ contract SecurityToken is TokenStorage, AgentRoleUpgradeable, ISecurityToken {
         }
 
     // Setters
-    function setName(string calldata _name) external onlyOwner {
+    function setName(string calldata _name) external onlyOwnerOrAgent {
         require(keccak256(abi.encode(_name)) != keccak256(abi.encode("")), "invalid argument - empty string");
         _tokenName = _name;
     }
 
-    function setSymbol(string calldata _symbol) external onlyOwner {
+    function setSymbol(string calldata _symbol) external onlyOwnerOrAgent {
         require(keccak256(abi.encode(_symbol)) != keccak256(abi.encode("")), "invalid argument - empty string");
         _tokenSymbol = _symbol;
     }
 
-    function setIdentityStorage(address _identityStorage) public onlyOwner {
+    function setIdentityStorage(address _identityStorage) public onlyOwnerOrAgent {
         require(_identityStorage != address(0), "invalid argument - zero address");
         identityStorage = IIdentityStorage(_identityStorage);
     }
 
-    function setCompliance(address _compliance) public override onlyOwner {
+    function setCompliance(address _compliance) public override onlyOwnerOrAgent {
         if (address(_tokenCompliance) != address(0)) {
             _tokenCompliance.unbindToken(address(this));
         }
@@ -92,7 +92,7 @@ contract SecurityToken is TokenStorage, AgentRoleUpgradeable, ISecurityToken {
         emit ComplianceAdded(_compliance);
     }
 
-    function increaseMaxSupply(uint256 _newMaxSupply) external onlyOwner {
+    function increaseMaxSupply(uint256 _newMaxSupply) external onlyOwnerOrAgent {
         require(_newMaxSupply > maxTotalSupply, "New max supply must be greater than current max supply");
         require(_totalSupply == maxTotalSupply, "Total supply has not yet reached the maximum limit");
     
@@ -101,12 +101,12 @@ contract SecurityToken is TokenStorage, AgentRoleUpgradeable, ISecurityToken {
     }
 
     // Pause functions
-    function pause() external onlyOwner whenNotPaused {
+    function pause() external onlyOwnerOrAgent whenNotPaused {
         _tokenPaused = true;
         emit Paused(msg.sender);
     }
 
-    function unpause() external onlyOwner whenPaused {
+    function unpause() external onlyOwnerOrAgent whenPaused {
         _tokenPaused = false;
         emit Unpaused(msg.sender);
     }
