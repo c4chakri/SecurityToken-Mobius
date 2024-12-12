@@ -18,7 +18,7 @@ describe("SecurityTokenFactory", function () {
     const SecurityTokenFactory = await ethers.getContractFactory("SecurityTokenFactory");
     factory = await SecurityTokenFactory.deploy(compliance.target, module.target);
 
-    console.log("SecurityTokenFactory deployed to:", factory.target);
+    //console.log("SecurityTokenFactory deployed to:", factory.target);
 
   })
 
@@ -53,7 +53,7 @@ describe("SecurityTokenFactory", function () {
     const receipt = await tx.wait();
 
     const event = receipt.logs.at(-1).args;
-    console.log("Security Token Created:", event[0]);
+    //console.log("Security Token Created:", event[0]);
 
     expect(event[3]).to.equal(name);
   })
@@ -92,7 +92,7 @@ describe("SecurityTokenFactory", function () {
     const receipt = await tx.wait();
 
     const event = receipt.logs.at(-1).args;
-    console.log("Security Token Created:", event[0]);
+    //console.log("Security Token Created:", event[0]);
 
 
     expect(event[3]).to.equal(name);
@@ -100,7 +100,7 @@ describe("SecurityTokenFactory", function () {
     const identityStorageContract = await ethers.getContractAt("IdentityStorage", event[1]);
     const modularComplainceContract = await ethers.getContractAt("ModularCompliance", event[2]);
     const securityTokenConfigs = await factory.securityTokenConfiguration(event[0]);
-    console.log("securityTokenConfigs", securityTokenConfigs);
+    //console.log("securityTokenConfigs", securityTokenConfigs);
 
     const mintAmount = ethers.parseEther("1000");
     const transferAmt = ethers.parseEther("250");
@@ -272,7 +272,7 @@ describe("SecurityTokenFactory", function () {
     const receipt = await tx.wait();
 
     const event = receipt.logs.at(-1).args;
-    console.log("Security Token Created:", event[0]);
+    // //console.log("Security Token Created:", event[0]);
 
 
     expect(event[3]).to.equal(name);
@@ -286,9 +286,9 @@ describe("SecurityTokenFactory", function () {
 
 
 
-    console.log("isModuleBound", await modularComplainceContract.isModuleBound(securityTokenConfigs[6]));
+    //console.log("isModuleBound", await modularComplainceContract.isModuleBound(securityTokenConfigs[6]));
 
-    console.log("securityTokenConfigs", securityTokenConfigs);
+    //console.log("securityTokenConfigs", securityTokenConfigs);
     //*******************************timeTransfersLimitsModule******************************** */
     const timeTransfersLimitsModule = await ethers.getContractAt("TimeTransfersLimitsModule", timeTransferLimitModuleAddress);
     await identityStorageContract
@@ -320,130 +320,7 @@ describe("SecurityTokenFactory", function () {
 
 
 
-  // it("should create a new security token and checks MaxSupply Module", async function () {
-  //   [owner, addr1] = await ethers.getSigners();
-  //   const name = "Test Token";
-  //   const symbol = "TTK";
-  //   const decimals = 18;
-  //   const supply = ethers.parseEther("1000000");
 
-  //   const maxSupply = ethers.parseEther("2000000");
-  //   const supplyLimit = ethers.parseEther("0");
-  //   const conditionalTransferLimit = false
-  //   const transferRestriction = true
-  //   const limit = [0, 0] //[limitTime,limitValue]
-
-  //   const params = [
-  //     name,
-  //     symbol,
-  //     decimals,
-  //     supply,
-  //     [
-  //       maxSupply,
-  //       supplyLimit,
-  //       conditionalTransferLimit,
-  //       transferRestriction,
-  //       limit
-  //     ]
-  //   ]
-
-  //   const tx = await factory.connect(owner).createSecurityToken(params);
-
-  //   const receipt = await tx.wait();
-
-  //   const event = receipt.logs.at(-1).args;
-  //   console.log("Security Token Created:", event[0]);
-
-
-  //   expect(event[3]).to.equal(name);
-  //   const securityTokenContract = await ethers.getContractAt("SecurityToken", event[0]);
-  //   const identityStorageContract = await ethers.getContractAt("IdentityStorage", event[1]);
-  //   const modularComplainceContract = await ethers.getContractAt("ModularCompliance", event[2]);
-  //   const securityTokenConfigs = await factory.securityTokenConfiguration(event[0]);
-  //   await identityStorageContract
-  //     .connect(owner)
-  //     .registerUsers([addr1.address, addr2.address]);
-
-  //   const maxBalanceModuleAddress = securityTokenConfigs[3];;
-
-  //   console.log("decimals", await securityTokenContract.decimals());
-  //   console.log("totalUsers", await identityStorageContract.totalUsers());
-  //   console.log("maxbalAddr", maxBalanceModuleAddress);
-
-  //   console.log("name", await modularComplainceContract.name());
-  //   console.log("isModuleBound", await modularComplainceContract.isModuleBound(securityTokenConfigs[3]));
-
-  //   console.log("securityTokenConfigs", securityTokenConfigs);
-  //   const maxBalanceModule = await ethers.getContractAt("MaxBalanceModule", maxBalanceModuleAddress);
-  //   const currentMaxBalance = await maxBalanceModule.getIDBalance(
-  //     event[2],
-  //     addr1
-  //   );
-
-  //   console.log("currentMaxBalance", currentMaxBalance);
-
-
-
-  //   // const balance = ethers.parseEther("500");
-
-  //   // await modularComplainceContract.removeModule(maxBalanceModule);
-  //   // await modularComplainceContract.connect(owner).preSetModuleState(event[2], addr1.address, balance);
-
-  //   // Encode the preSetModuleState function call
-  //   // const moduleInterface = new ethers.Interface([
-  //   //   "function preSetModuleState(address _compliance, address _id, uint256 _balance)",
-  //   // ]);
-  //   // const preSetData = moduleInterface.encodeFunctionData("preSetModuleState", [
-  //   //     securityTokenConfigs[2],
-  //   //   addr1.address,
-  //   //   balance,
-  //   // ]);
-  //   console.log("owner", await modularComplainceContract.owner());
-  //   console.log("haradat owner", owner.address);
-  //   console.log("addr1", addr1.address);
-
-
-  //   // Call the module function through modularCompliance
-
-  //   // const tx_ = await modularComplainceContract.connect(owner).callModuleFunction(
-  //   //   preSetData,
-  //   //   maxBalanceModuleAddress
-  //   // );
-
-  //   // await expect(tx_)
-  //   //   .to.emit(maxBalanceModule, "IDBalancePreSet")
-  //   //   .withArgs(securityTokenConfigs[2], addr1.address, balance);
-
-  //   //   const investorBalance = await maxBalanceModule.getIDBalance(
-  //   //     modularCompliance.target,
-  //   //     addr1
-  //   //   );
-  //   //   console.log("investorBalance",investorBalance);
-
-  //   // Verify the balance has been set
-  //   // const investorBalance = await maxBalanceModule.getIDBalance(
-  //   //   securityTokenConfigs[2],
-  //   //   addr1
-  //   // );
-  //   // expect(investorBalance).to.equal(balance);
-
-
-
-  //   const isCompliant = await maxBalanceModule.moduleCheck(
-  //     ethers.ZeroAddress,
-  //     owner,
-  //     maxSupply,
-  //     securityTokenConfigs[3]
-  //   );
-  //   console.log("isCompliant===========", isCompliant);
-
-
-  //   await securityTokenContract.connect(owner).mint(addr1, ethers.parseEther("1000"));
-
-  //   await securityTokenContract.connect(owner).unpause();
-
-  //   await securityTokenContract.connect(addr1).transfer(addr2, ethers.parseEther("200"));
-  // })
   it("should create a new security token and checks Conditional Transfer Module", async function () {
     [owner, addr1, addr2, addr3] = await ethers.getSigners();
     const name = "Test Token";
@@ -476,7 +353,7 @@ describe("SecurityTokenFactory", function () {
     const receipt = await tx.wait();
 
     const event = receipt.logs.at(-1).args;
-    console.log("Security Token Created:", event[0]);
+    //console.log("Security Token Created:", event[0]);
 
 
     expect(event[3]).to.equal(name);
@@ -488,14 +365,14 @@ describe("SecurityTokenFactory", function () {
 
     const maxBalanceModuleAddress = securityTokenConfigs[3];;
 
-    console.log("decimals", await securityTokenContract.decimals());
-    console.log("totalUsers", await identityStorageContract.totalUsers());
-    console.log("maxbalAddr", maxBalanceModuleAddress);
+    //console.log("decimals", await securityTokenContract.decimals());
+    //console.log("totalUsers", await identityStorageContract.totalUsers());
+    //console.log("maxbalAddr", maxBalanceModuleAddress);
 
-    console.log("name", await modularComplainceContract.name());
-    console.log("isModuleBound", await modularComplainceContract.isModuleBound(securityTokenConfigs[3]));
+    //console.log("name", await modularComplainceContract.name());
+    //console.log("isModuleBound", await modularComplainceContract.isModuleBound(securityTokenConfigs[3]));
 
-    console.log("securityTokenConfigs", securityTokenConfigs);
+    //console.log("securityTokenConfigs", securityTokenConfigs);
 
     const conditionalTransferContract = await ethers.getContractAt("ConditionalTransferModule", securityTokenConfigs[7]);
 
@@ -531,8 +408,8 @@ describe("SecurityTokenFactory", function () {
     );
     expect(isCompliant).to.be.true;
 
-    console.log("securityTokenContract owner", await securityTokenContract.owner());
-    console.log("token owner", owner.address);
+    //console.log("securityTokenContract owner", await securityTokenContract.owner());
+    //console.log("token owner", owner.address);
 
 
     // Mint tokens; should succeed if compliance is met
@@ -573,8 +450,8 @@ describe("SecurityTokenFactory", function () {
 
     await securityTokenContract.connect(addr1).transfer(addr2.address, ethers.parseEther("50"));
 
-    console.log("balance of user1", await securityTokenContract.balanceOf(addr1.address));
-    console.log("balance of user2", await securityTokenContract.balanceOf(addr2.address));
+    //console.log("balance of user1", await securityTokenContract.balanceOf(addr1.address));
+    //console.log("balance of user2", await securityTokenContract.balanceOf(addr2.address));
   })
 
   it("should create a new security token and checks SupplyLimit Module", async function () {
@@ -609,7 +486,7 @@ describe("SecurityTokenFactory", function () {
     const receipt = await tx.wait();
 
     const event = receipt.logs.at(-1).args;
-    console.log("Security Token Created:", event[0]);
+    //console.log("Security Token Created:", event[0]);
 
 
     expect(event[3]).to.equal(name);
@@ -641,10 +518,133 @@ describe("SecurityTokenFactory", function () {
     await securityTokenContract.connect(owner).unpause();
     // trasfer
     await securityTokenContract.connect(addr1).transfer(addr2.address, ethers.parseEther("10"));
-    console.log("balance of user1", await securityTokenContract.balanceOf(addr1.address));
-    console.log("balance of user2", await securityTokenContract.balanceOf(addr2.address));
+    //console.log("balance of user1", await securityTokenContract.balanceOf(addr1.address));
+    //console.log("balance of user2", await securityTokenContract.balanceOf(addr2.address));
   })
+  // it("should create a new security token and checks MaxSupply Module", async function () {
+  //   [owner, addr1] = await ethers.getSigners();
+  //   const name = "Test Token";
+  //   const symbol = "TTK";
+  //   const decimals = 18;
+  //   const supply = ethers.parseEther("1000000");
 
+  //   const maxSupply = ethers.parseEther("2000000");
+  //   const supplyLimit = ethers.parseEther("0");
+  //   const conditionalTransferLimit = false
+  //   const transferRestriction = true
+  //   const limit = [0, 0] //[limitTime,limitValue]
+
+  //   const params = [
+  //     name,
+  //     symbol,
+  //     decimals,
+  //     supply,
+  //     [
+  //       maxSupply,
+  //       supplyLimit,
+  //       conditionalTransferLimit,
+  //       transferRestriction,
+  //       limit
+  //     ]
+  //   ]
+
+  //   const tx = await factory.connect(owner).createSecurityToken(params);
+
+  //   const receipt = await tx.wait();
+
+  //   const event = receipt.logs.at(-1).args;
+  //   //console.log("Security Token Created:", event[0]);
+
+
+  //   expect(event[3]).to.equal(name);
+  //   const securityTokenContract = await ethers.getContractAt("SecurityToken", event[0]);
+  //   const identityStorageContract = await ethers.getContractAt("IdentityStorage", event[1]);
+  //   const modularComplainceContract = await ethers.getContractAt("ModularCompliance", event[2]);
+  //   const securityTokenConfigs = await factory.securityTokenConfiguration(event[0]);
+  //   await identityStorageContract
+  //     .connect(owner)
+  //     .registerUsers([addr1.address, addr2.address]);
+
+  //   const maxBalanceModuleAddress = securityTokenConfigs[3];;
+
+  //   //console.log("decimals", await securityTokenContract.decimals());
+  //   //console.log("totalUsers", await identityStorageContract.totalUsers());
+  //   //console.log("maxbalAddr", maxBalanceModuleAddress);
+
+  //   //console.log("name", await modularComplainceContract.name());
+  //   //console.log("isModuleBound", await modularComplainceContract.isModuleBound(securityTokenConfigs[3]));
+
+  //   //console.log("securityTokenConfigs", securityTokenConfigs);
+  //   const maxBalanceModule = await ethers.getContractAt("MaxBalanceModule", maxBalanceModuleAddress);
+  //   const currentMaxBalance = await maxBalanceModule.getIDBalance(
+  //     event[2],
+  //     addr1
+  //   );
+
+  //   //console.log("currentMaxBalance", currentMaxBalance);
+
+
+
+  //   // const balance = ethers.parseEther("500");
+
+  //   // await modularComplainceContract.removeModule(maxBalanceModule);
+  //   // await modularComplainceContract.connect(owner).preSetModuleState(event[2], addr1.address, balance);
+
+  //   // Encode the preSetModuleState function call
+  //   // const moduleInterface = new ethers.Interface([
+  //   //   "function preSetModuleState(address _compliance, address _id, uint256 _balance)",
+  //   // ]);
+  //   // const preSetData = moduleInterface.encodeFunctionData("preSetModuleState", [
+  //   //     securityTokenConfigs[2],
+  //   //   addr1.address,
+  //   //   balance,
+  //   // ]);
+  //   //console.log("owner", await modularComplainceContract.owner());
+  //   //console.log("haradat owner", owner.address);
+  //   //console.log("addr1", addr1.address);
+
+
+  //   // Call the module function through modularCompliance
+
+  //   // const tx_ = await modularComplainceContract.connect(owner).callModuleFunction(
+  //   //   preSetData,
+  //   //   maxBalanceModuleAddress
+  //   // );
+
+  //   // await expect(tx_)
+  //   //   .to.emit(maxBalanceModule, "IDBalancePreSet")
+  //   //   .withArgs(securityTokenConfigs[2], addr1.address, balance);
+
+  //   //   const investorBalance = await maxBalanceModule.getIDBalance(
+  //   //     modularCompliance.target,
+  //   //     addr1
+  //   //   );
+  //   //   //console.log("investorBalance",investorBalance);
+
+  //   // Verify the balance has been set
+  //   // const investorBalance = await maxBalanceModule.getIDBalance(
+  //   //   securityTokenConfigs[2],
+  //   //   addr1
+  //   // );
+  //   // expect(investorBalance).to.equal(balance);
+
+
+
+  //   const isCompliant = await maxBalanceModule.moduleCheck(
+  //     ethers.ZeroAddress,
+  //     owner,
+  //     maxSupply,
+  //     securityTokenConfigs[3]
+  //   );
+  //   //console.log("isCompliant===========", isCompliant);
+
+
+  //   await securityTokenContract.connect(owner).mint(addr1, ethers.parseEther("1000"));
+
+  //   await securityTokenContract.connect(owner).unpause();
+
+  //   await securityTokenContract.connect(addr1).transfer(addr2, ethers.parseEther("200"));
+  // })
 });
 
 
